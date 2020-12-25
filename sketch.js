@@ -2,7 +2,7 @@ const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
-
+var score=0
 var engine, world;
 var box1, pig1,pig3;
 var backgroundImg,platform;
@@ -11,7 +11,8 @@ var bird, slingshot;
 var gameState = "onSling";
 
 function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+    getTime()
+   // backgroundImg = loadImage("sprites/bg.png");
 }
 
 function setup(){
@@ -45,7 +46,9 @@ function setup(){
 }
 
 function draw(){
-    background(backgroundImg);
+    if(backgroundImg){
+        background(backgroundImg);
+    }
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();
@@ -53,6 +56,9 @@ function draw(){
     ground.display();
     pig1.display();
     log1.display();
+pig1.score()
+pig3.score()
+
 
     box3.display();
     box4.display();
@@ -66,7 +72,11 @@ function draw(){
     bird.display();
     platform.display();
     //log6.display();
-    slingshot.display();    
+    slingshot.display();
+    textSize(40)   
+    fill("red")
+text("Score"+score,300,50)
+
 }
 
 function mouseDragged(){
@@ -82,7 +92,23 @@ function mouseReleased(){
 }
 
 function keyPressed(){
+
     if(keyCode === 32){
-       // slingshot.attach(bird.body);
+      
     }
+}
+ async function  getTime(){
+    var response=await fetch("http://worldtimeapi.org/api/timezone/Asia/Singapore/")
+    var responsejson=await response.json()
+console.log(responsejson)
+var daytime=responsejson.datetime
+var hour=daytime.slice(11,13)
+if(hour>=01 && hour<=19){
+bg="sprites/bg2.jpg"
+}
+else{
+    bg="sprites/bg.png"
+}
+backgroundImg=loadImage("bg")
+
 }
